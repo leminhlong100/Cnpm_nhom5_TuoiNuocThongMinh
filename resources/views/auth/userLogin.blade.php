@@ -1,25 +1,53 @@
 @extends('auth.auth')
 @section('content-auth')
+<div class="modal fade" style=" position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);" id="emailInvalidModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ trans('login.thong_bao') }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ trans('login.error_email') }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('login.close') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" style=" position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);" id="passwordInvalidModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ trans('login.thong_bao') }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ trans('login.error_pass')}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('login.close') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div class="login-box">
         <h1 class="text-center mb-5" style="margin-bottom: 10px !important;">
             <img src="assets/img/logo.png" class="" style="width: 60px; height: 60px;"/>
             {{--            <i class="fa fa-rocket text-primary"></i>--}}
-            Hệ thống giám sát ao nuôi</h1>
+            {{ trans('login.hethong') }}</h1>
         <div class="column">
             <div class="login-box-form" style="width: 400px; text-align: center; margin: auto">
-                <p class="form" style="color: red; font-size: 15px!important;">
-                    @error('changePass')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-                </p>
-                <h3 class="mb-2" style="margin-bottom: 20px!important;">Đăng nhập</h3>
+                <h3 class="mb-2" style="margin-bottom: 20px!important;"> {{ trans('login.login') }}</h3>
                 <form method="post" action="{{route('postUsLogin')}}" class="mt-2" onsubmit="return validateForm()" name="myForm">
                     @csrf
-                    @error('mes')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
-
                     @if(Session::has('ok'))
                         <small class="form-text text-success">{{ Session::get('ok') }}</small>
                     @endif
@@ -30,9 +58,6 @@
                         </div>
                         <input type="text" class="form-control mt-0" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" name="email" id="email" value="{{ old('email') }}" />
                     </div>
-                    @error('email')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
                     </p>
 
                     <p class="form">
@@ -42,9 +67,6 @@
                         </div>
                         <input type="password" class="form-control mt-0" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" name="pass" id="pass" />
                     </div>
-                    @error('pass')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                    @enderror
                     </p>
 
                     <div class="form-group">
@@ -59,23 +81,24 @@
                 </form>
             </div>
             <script>
-    function validateForm() {
-        var email = document.forms["myForm"]["email"].value;
-        var password = document.forms["myForm"]["pass"].value;
+   function validateForm() {
+  var email = document.forms["myForm"]["email"].value;
+  var password = document.forms["myForm"]["pass"].value;
 
-        // Kiểm tra tính hợp lệ của email
-        var emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-        if (!emailPattern.test(email)) {
-            alert("Email không hợp lệ");
-            return false;
-        }
+  // Kiểm tra tính hợp lệ của email
+  var emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+  if (!emailPattern.test(email)) {
+    $('#emailInvalidModal').modal('show');
+    return false;
+  }
 
-        // Kiểm tra độ dài của mật khẩu
-        if (password.length < 6) {
-            alert("Mật khẩu phải có ít nhất 8 ký tự");
-            return false;
-        }
-    }
+  // Kiểm tra độ dài của mật khẩu
+  if (password.length < 8) {
+    $('#passwordInvalidModal').modal('show');
+    return false;
+  }
+}
+
 </script>
 
         </div>
