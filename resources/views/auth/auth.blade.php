@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="description" content="" >
+    <meta name="description" content="">
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +21,7 @@
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/fontawesome.css">
 
-{{--    Css Admin--}}
+    {{--    Css Admin--}}
     <link rel="stylesheet" href="assets/css/write_Your.css">
 
     <!--[if lt IE 9]>
@@ -28,29 +29,31 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <title>Hệ thống giám sát ao nuôi</title>
+    <title>Hệ thống tưới nước tự động thông minh</title>
 </head>
 
 <body class="login-body">
 
-<!--Login Wrapper-->
+    <!--Login Wrapper-->
 
-<div class="container-fluid login-wrapper">
-    @yield('content-auth')
-</div>
+    <div class="container-fluid login-wrapper">
+        @yield('content-auth')
+    </div>
 
-<!--Login Wrapper-->
+    <!--Login Wrapper-->
 
-<!-- Page JavaScript Files-->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery-1.12.4.min.js"></script>
-<!--Popper JS-->
-<script src="assets/js/popper.min.js"></script>
-<!--Bootstrap-->
-<script src="assets/js/bootstrap.min.js"></script>
+    <!-- Page JavaScript Files-->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-1.12.4.min.js"></script>
+    <!--Popper JS-->
+    <script src="assets/js/popper.min.js"></script>
+    <!--Bootstrap-->
+    <script src="assets/js/bootstrap.min.js"></script>
 
-<!--Custom Js Script-->
-<script src="assets/js/custom.js"></script>
-<!--Custom Js Script-->
+    <!--Custom Js Script-->
+    <script src="assets/js/custom.js"></script>
+    <!--Check form using event blur-->
+    <script src="assets/js/check-form-event-blur.js"></script>
 </body>
+
 </html>
