@@ -45,6 +45,7 @@ class ActiveAccountRegister extends Notification implements ShouldQueue
             ->greeting("Xin chào! ")
             ->line('Tài khoản của bạn vừa được yêu cầu xác nhận.')
             ->line('Nếu bạn thực sự thực hiện yêu cầu trên vui lòng nhấn nút kích hoạt ở dưới.')
+            // 6.9 nhấn nút kích hoạt
             ->action('Kích hoạt', route('confirmemailRegister', [
                 'email' => $notifiable->email,
                 'key' => $notifiable->random_key

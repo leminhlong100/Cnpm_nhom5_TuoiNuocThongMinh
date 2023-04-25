@@ -7,6 +7,8 @@ $(document).ready(function () {
         gender = "",
         phone = "",
         address = "";
+
+    // check họ tên
     $("#input-1").on("input", () => {
         fullName = $("#input-1").val();
         if (
@@ -16,14 +18,14 @@ $(document).ready(function () {
             let existingErrorMessages = $("#input-1").nextAll(".text-danger");
             if (existingErrorMessages.length == 0) {
                 $("#input-1").after(
-                    '<small class="form-text text-danger">Họ tên cần lớn hơn 2 kí tự và bé hơn 50 kí tự</small>'
+                    '<small class="form-text text-danger">Họ tên cần lớn hơn 3 kí tự và bé hơn 50 kí tự</small>'
                 );
             }
         } else {
             $("#input-1").nextAll(".text-danger").remove();
         }
     });
-
+    // check emaik
     $("#input-2").on("input", () => {
         email = $("#input-2").val().trim();
         if (email.length > 0 && !isValidEmail(email)) {
@@ -34,7 +36,7 @@ $(document).ready(function () {
             );
         } else {
             $.ajax({
-                url: "/checkemail",
+                url: "/checkemail", // phương thức bên trong RegisterController
                 type: "GET",
                 data: { email: email },
                 success: function (data) {
@@ -53,7 +55,7 @@ $(document).ready(function () {
             });
         }
     });
-
+    // check mật khẩu
     $("#input-3").on("input", () => {
         pass = $("#input-3").val();
         if (pass.includes(" ")) {
@@ -70,7 +72,7 @@ $(document).ready(function () {
             $("#input-3").nextAll(".text-danger").remove();
         }
     });
-
+    // check nhập lại mật khẩu
     $("#input-4").on("input", () => {
         repass = $("#input-4").val().trim();
         if (pass !== repass && repass.length > 0) {
@@ -82,6 +84,7 @@ $(document).ready(function () {
             }
         } else $("#input-4").nextAll(".text-danger").remove();
     });
+    // check ngày sinh phải nhỏ hơn hoặc bằng với ngày hiện tại
     $("#input-5").on("input", () => {
         birthday = $("#input-5").val();
         const today = new Date();
@@ -103,24 +106,10 @@ $(document).ready(function () {
             $("#input-5").nextAll(".text-danger").remove();
         }
     });
-
-    // $("#exampleFormControlSelect1").on("input", () => {
-    //     gender = $("#exampleFormControlSelect1").val();
-    //     if (gender === "") {
-    //         let existingErrorMessages = $("#exampleFormControlSelect1").nextAll(
-    //             ".text-danger"
-    //         );
-    //         if (existingErrorMessages.length == 0) {
-    //             $("#exampleFormControlSelect1").after(
-    //                 '<small class="form-text text-danger">Vui lòng chọn giới tính</small>'
-    //             );
-    //         }
-    //     } else {
-    //         $("#exampleFormControlSelect1").nextAll(".text-danger").remove();
-    //     }
-    // });
+    // check số điện thoại
     $("#input-6").on("input", () => {
         phone = $("#input-6").val();
+        // nếu không bắt đầu bằng số 0 và chưa đủ độ dài 10 ký tự, thông báo
         if (!/^[0][0-9]{9}$/.test(phone)) {
             let existingErrorMessages = $("#input-6").nextAll(".text-danger");
             if (existingErrorMessages.length == 0) {
@@ -132,20 +121,8 @@ $(document).ready(function () {
             $("#input-6").nextAll(".text-danger").remove();
         }
     });
-    // $("#input-7").input(() => {
-    //     address = $("#input-7").val().trim();
-    //     if (address.length == 0) {
-    //         let existingErrorMessages = $("#input-7").nextAll(".text-danger");
-    //         if (existingErrorMessages.length == 0) {
-    //             $("#input-7").after(
-    //                 '<small class="form-text text-danger">Vui lòng nhập địa chỉ của bạn</small>'
-    //             );
-    //         }
-    //     } else {
-    //         $("#input-7").nextAll(".text-danger").remove();
-    //     }
-    // });
 
+    // kiểm tra định dạng email
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
