@@ -1,5 +1,6 @@
 @extends('auth.auth')
 @section('content-auth')
+  <!-- dialog lỗi sai định đạng email -->
 <div class="modal fade" style=" position: fixed;
   top: 60%;
   left: 50%;
@@ -18,7 +19,7 @@
     </div>
   </div>
 </div>
-
+  <!-- dialog lỗi mật khẩu dưới 8 ký tự -->
 <div class="modal fade" style=" position: fixed;
   top: 60%;
   left: 50%;
@@ -48,6 +49,11 @@
                 <h3 class="mb-2" style="margin-bottom: 20px!important;"> {{ trans('login.login') }}</h3>
                 <form method="post" action="{{route('postUsLogin')}}" class="mt-2" onsubmit="return validateForm()" name="myForm">
                     @csrf
+                    <!-- hiển thị ra lỗi của người dùng -->
+                    @error('mes')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                    <!-- check xem section đã có user hay chưa nếu có rồi thì chuyền về home -->
                     @if(Session::has('ok'))
                         <small class="form-text text-success">{{ Session::get('ok') }}</small>
                     @endif
@@ -72,15 +78,16 @@
                     <div class="form-group">
                         <input type="submit" class="btn btn-theme btn-block p-2 mb-1" name="login" value="Đăng nhập" />
                         <a href="{{route('register')}}">
-                            <small class="text-theme" style="font-style: italic; float: left; margin-top: 10px; margin-left: 10px"><strong>Đăng ký tài khoản</strong></small>
+                            <small class="text-theme" style="font-style: italic; float: left; margin-top: 10px; margin-left: 10px"><strong>{{ trans('login.register') }}</strong></small>
                         </a>
                         <a href="{{route('forgotPass')}}">
-                            <small class="text-theme" style="font-style: italic; float: right; margin-top: 10px; margin-right: 10px"><strong>Quên mật khẩu?</strong></small>
+                            <small class="text-theme" style="font-style: italic; float: right; margin-top: 10px; margin-right: 10px"><strong>{{ trans('login.forgot') }}?</strong></small>
                         </a>
                     </div>
                 </form>
             </div>
             <script>
+// đoạn script này validate ở bước 6.5 của normal flow là kiểm tra email và password hợp cú pháp
    function validateForm() {
   var email = document.forms["myForm"]["email"].value;
   var password = document.forms["myForm"]["pass"].value;
@@ -98,7 +105,6 @@
     return false;
   }
 }
-
 </script>
 
         </div>
