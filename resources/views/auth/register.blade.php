@@ -20,6 +20,7 @@
                 style="margin-top: 0px!important;">
                 @csrf
                 <div class="form-group row" style="margin-bottom: 0px">
+                    <!-- Họ tên -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-1">Họ tên <span class="text-danger">*</span></label>
@@ -30,6 +31,7 @@
                             @enderror
                         </p>
                     </div>
+                    <!-- Email -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-2">Email <span class="text-danger">*</span></label>
@@ -43,6 +45,7 @@
                 </div>
 
                 <div class="form-group row" style="margin-bottom: 0px">
+                    <!-- Password -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-3">Mật khẩu đăng nhập <span
@@ -54,6 +57,7 @@
                             @enderror
                         </p>
                     </div>
+                    <!-- RePassword -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-4">Xác nhận mật khẩu <span
@@ -68,6 +72,7 @@
                 </div>
 
                 <div class="form-group row" style="margin-bottom: 0px">
+                    <!-- Birthday -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-5">Ngày sinh</label>
@@ -78,6 +83,7 @@
                             @enderror
                         </p>
                     </div>
+                    <!-- Gender -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="exampleFormControlSelect1">Giới tính</label>
@@ -95,6 +101,7 @@
                 </div>
 
                 <div class="form-group row" style="margin-bottom: 0px">
+                    <!-- Phone -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-6">Số điện thoại <span
@@ -106,6 +113,7 @@
                             @enderror
                         </p>
                     </div>
+                    <!-- Address -->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-7">Địa chỉ</label>
@@ -119,13 +127,15 @@
                 </div>
                 <div class="form-group row" style="margin-top: 40px">
                     <p class="form">
+                        <!-- Thoát -->
                     <div class="col-sm-6">
                         <a href="#" class="col-sm-12 btn btn-danger" id="show-emp" data-toggle="modal"
                             data-target="#modal-up" style="color: white">Thoát</a>
                     </div>
+                    <!-- Đăng ký -->
                     <div class="col-sm-6">
                         <input type="submit" class="col-sm-12 btn btn-theme" name="register" value="Đăng ký"
-                            id="register" style="padding: 8px 0;" data-target="" />
+                            id="register" style="padding: 8px 0; " data-target="" />
                     </div>
                     @error('register')
                     <div class="text-center col-sm-12"><small class="form-text text-success"
@@ -137,6 +147,7 @@
         </div>
     </div>
 </div>
+<!-- modal log hiển thị giao diện tùy chọn khi người dùng bấm nút Thoát -->
 <div class="modal fade" id="modal-up" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
     data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -144,11 +155,7 @@
             <div class="modal-body">
                 <div class="column">
                     <div class="login-box-form" style="padding: 15px 25px 0.5px 25px!important;">
-                        <p class="form" style="color: red; font-size: 15px!important;">
-                            @error('changePass')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </p>
+
                         <h4 class="mb-2" style="margin-bottom: 20px!important; text-align: center">Bạn có muốn thoát
                             không?
                         </h4>
@@ -177,6 +184,7 @@
         </div>
     </div>
 </div>
+<!-- modal log thông báo cho người dùng biết chưa nhập đầy đủ thông tin cần thiết -->
 <div class="modal fade" id="modal-check" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
     data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -184,11 +192,6 @@
             <div class="modal-body">
                 <div class="column">
                     <div class="login-box-form" style="padding: 15px 25px 0.5px 25px!important;">
-                        <p class="form" style="color: red; font-size: 15px!important;">
-                            @error('changePass')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </p>
                         <h3 class="text-center text-danger"><i class="fas fa-exclamation-triangle"></i></i></h3>
                         <h5 class="text-center ">Chưa đầy đủ thông tin cần thiết(<span class="text-danger">*</span>)
                         </h5>
