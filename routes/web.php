@@ -10,6 +10,7 @@ Route::get('/send-notification', [App\Http\Controllers\Controller::class, 'sendN
 Route::get('register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegister'])->name('register');
 Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'doRegister'])->name('postRegister');
 Route::get('confirmemailRegister/{email}/{key}', [\App\Http\Controllers\Auth\RegisterController::class, 'confirmEmail'])->name('confirmemailRegister');
+Route::get('checkemail', [\App\Http\Controllers\Auth\RegisterController::class, 'checkEmail'])->name('checkEmail');
 
 //  route admin
 Route::get('adminLogin', [\App\Http\Controllers\Admin\AdminLoginController::class, 'showLogin'])->name('adLogin');
@@ -34,11 +35,11 @@ Route::group(['middleware' => 'checkUserLogin'], function () {
     Route::get('/home', [\App\Http\Controllers\User\IndexUserController::class, 'indexUser'])->name('homeUs');
     Route::get('/changePass', [\App\Http\Controllers\User\UserAuthController::class, 'userChangePass'])->name('userChangePass');
     Route::post('/postChangePass', [\App\Http\Controllers\User\UserAuthController::class, 'doChangePass'])->name('userpostChangePass');
-//      Profile, update profile
+    //      Profile, update profile
     Route::get('/profile', [\App\Http\Controllers\User\UserAuthController::class, 'showProfileUser'])->name('userProfile');
     Route::post('/updateProfile', [\App\Http\Controllers\User\UserAuthController::class, 'updateProfileUser'])->name('userupdateProfile');
 
-//
+    //
     Route::get('/pond/config', [\App\Http\Controllers\User\ConfigPondController::class, 'showPond'])->name('pondConfig');
     Route::get('/pond/singup', [\App\Http\Controllers\User\ConfigPondController::class, 'showSingup'])->name('pondSingup');
     Route::post('/postSingupPond', [\App\Http\Controllers\User\ConfigPondController::class, 'doSingup'])->name('postSingup');
@@ -46,7 +47,7 @@ Route::group(['middleware' => 'checkUserLogin'], function () {
     Route::post('/pond/updateInfo/{id}', [\App\Http\Controllers\User\ConfigPondController::class, 'update'])->name('pondUpdate');
     Route::get('/delete/pond/{id}', [\App\Http\Controllers\User\ConfigPondController::class, 'delete'])->name('pondDelete');
 
-//
+    //
     Route::get('/toolkit/config', [\App\Http\Controllers\User\ConfigToolkitController::class, 'showView'])->name('configToolkit');
     Route::get('/toolkit/view/{id}', [\App\Http\Controllers\User\ConfigToolkitController::class, 'showToolkit']);
     Route::get('/toolkit/singup', [\App\Http\Controllers\User\ConfigToolkitController::class, 'showSingup'])->name('showToolSingup');
@@ -55,7 +56,7 @@ Route::group(['middleware' => 'checkUserLogin'], function () {
     Route::post('/toolkit/post/updateInfo/{id}', [\App\Http\Controllers\User\ConfigToolkitController::class, 'postUpdateInfo'])->name('postToolUpdate');
     Route::get('/delete/toolkit/{id}', [\App\Http\Controllers\User\ConfigToolkitController::class, 'deleteTool'])->name('toolDelete');
 
-//
+    //
     Route::get('/control/config', [\App\Http\Controllers\User\ConfigControlController::class, 'showView'])->name('configControl');
     Route::get('/control/view/{id}', [\App\Http\Controllers\User\ConfigControlController::class, 'showControl']);
     Route::get('/control/singup', [\App\Http\Controllers\User\ConfigControlController::class, 'showSingup'])->name('controlSingup');
@@ -70,10 +71,10 @@ Route::group(['middleware' => 'checkUserLogin'], function () {
 //   ---------------------------------------        --------------------------------------
 Route::group(['middleware' => 'checkAdminLogin'], function () {
     Route::get('/admin', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//      Đổi pass
+    //      Đổi pass
     Route::get('/adminChangePass', [\App\Http\Controllers\Auth\ChangePasswordController::class, 'showChangePass'])->name('adChangePass');
     Route::post('/postAdminChangePass', [\App\Http\Controllers\Auth\ChangePasswordController::class, 'doChangePass'])->name('postAdChangePass');
-//      Profile, update profile
+    //      Profile, update profile
     Route::get('/adminProfile', [\App\Http\Controllers\Admin\ProfileAdminController::class, 'showProfile'])->name('adProfile');
     Route::post('/UpdateAdminProfile', [\App\Http\Controllers\Admin\ProfileAdminController::class, 'updateProfile'])->name('updateAdProfile');
 
@@ -83,7 +84,7 @@ Route::group(['middleware' => 'checkAdminLogin'], function () {
     Route::get('/admin/createUser', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('create_user');
     Route::post('/admin/storeUser', [\App\Http\Controllers\Admin\UserController::class, 'storeUser'])->name('store_user');
     Route::post('/admin/storeAdmin', [\App\Http\Controllers\Admin\UserController::class, 'storeAdmin'])->name('store_admin');
-//    -------- Active mail------
+    //    -------- Active mail------
     Route::get('confirmemail/{email}/{key}', [\App\Http\Controllers\Admin\UserController::class, 'confirmEmail'])->name('confirmemail');
 
     //    -------------------------------------
@@ -108,7 +109,7 @@ Route::group(['middleware' => 'checkAdminLogin'], function () {
     Route::post('/admin/toolkit/create', [\App\Http\Controllers\Admin\ToolkitController::class, 'store'])->name('toolkit_store');
     Route::get('/admin/toolkit/undo/{id}', [\App\Http\Controllers\Admin\ToolkitController::class, 'showViewUndo'])->name('toolkitUndo');
     Route::post('/admin/toolkit/postUndo/{id}', [\App\Http\Controllers\Admin\ToolkitController::class, 'undoToolkit'])->name('toolkitPostUndo');
-//    Route::post('/admin/toolkit_update', [\App\Http\Controllers\Admin\ToolkitController::class, 'update'])->name('toolkit_update');
+    //    Route::post('/admin/toolkit_update', [\App\Http\Controllers\Admin\ToolkitController::class, 'update'])->name('toolkit_update');
     Route::get('/admin/toolkit/delete/{id}', [\App\Http\Controllers\Admin\ToolkitController::class, 'delete'])->name('toolkit_delete');
     Route::get('/admin/toolkit/register', [\App\Http\Controllers\Admin\ToolkitController::class, 'showIndexRegisTool'])->name('re_toolkit');
     Route::get('/admin/toolkit/register/ok/{id}', [\App\Http\Controllers\Admin\ToolkitController::class, 'okRegisterTool'])->name('okRegis_toolkit');
@@ -135,4 +136,3 @@ Route::get('verifile', function () {
 Route::get('/404.html', function () {
     return view('pages.error.401');
 })->name('404');
-
