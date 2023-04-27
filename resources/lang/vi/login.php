@@ -10,5 +10,5 @@ return [
     'hethong' => 'Hệ thống tưới nước tự động thông minh',
     'login' => 'Đăng nhập',
     'register' => 'Đăng ký tài khoản',
-    'forgot' => 'Quên mật khẩu?',
+    'forgot' => 'Quên mật khẩu',
 ];
