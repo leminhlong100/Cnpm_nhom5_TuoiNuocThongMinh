@@ -52,8 +52,8 @@
 
     <!--Custom Js Script-->
     <script src="assets/js/custom.js"></script>
-    <!--Check form using event blur-->
-    <script src="assets/js/check-form-event-blur.js"></script>
+    <!--Check form using event input-->
+    <script src="assets/js/check-form-event-input.js"></script>
 </body>
 
 </html>
