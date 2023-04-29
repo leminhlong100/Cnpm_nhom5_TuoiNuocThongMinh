@@ -1,6 +1,8 @@
+<!-- 20130316_LeMinhLong -->
+ <!-- Bước 1.6.1(Đăng nhập) : Người dùng truy cập vào hệ thống nếu chưa đăng nhập hệ thống sẽ tự động chuyển đến màn hình [Đăng nhập]. -->
 @extends('auth.auth')
 @section('content-auth')
-  <!-- dialog lỗi sai định đạng email -->
+  <!--(Đăng nhập)  dialog lỗi sai định đạng email -->
 <div class="modal fade" style=" position: fixed;
   top: 60%;
   left: 50%;
@@ -19,7 +21,7 @@
     </div>
   </div>
 </div>
-  <!-- dialog lỗi mật khẩu dưới 8 ký tự -->
+  <!--(Đăng nhập)  dialog lỗi mật khẩu dưới 8 ký tự -->
 <div class="modal fade" style=" position: fixed;
   top: 60%;
   left: 50%;
@@ -49,11 +51,11 @@
                 <h3 class="mb-2" style="margin-bottom: 20px!important;"> {{ trans('login.login') }}</h3>
                 <form method="post" action="{{route('postUsLogin')}}" class="mt-2" onsubmit="return validateForm()" name="myForm">
                     @csrf
-                    <!-- hiển thị ra lỗi của người dùng -->
+                    <!--(Đăng nhập)  hiển thị ra lỗi của người dùng -->
                     @error('mes')
                     <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
-                    <!-- check xem section đã có user hay chưa nếu có rồi thì chuyền về home -->
+                    <!--(Đăng nhập)  check xem section đã có user hay chưa nếu có rồi thì chuyền về home -->
                     @if(Session::has('ok'))
                         <small class="form-text text-success">{{ Session::get('ok') }}</small>
                     @endif
@@ -87,7 +89,7 @@
                 </form>
             </div>
             <script>
-// đoạn script này validate ở bước 6.5 của normal flow là kiểm tra email và password hợp cú pháp
+// (Đăng nhập) Đoạn script này validate ở bước 6.5 của normal flow là kiểm tra email và password hợp cú pháp
    function validateForm() {
   var email = document.forms["myForm"]["email"].value;
   var password = document.forms["myForm"]["pass"].value;
@@ -106,7 +108,6 @@
   }
 }
 </script>
-
         </div>
     </div>
 @endsection()
