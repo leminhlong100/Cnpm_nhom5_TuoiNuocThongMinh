@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     // check họ tên
     $("#input-1").on("input", () => {
-        fullName = $("#input-1").val();
+        fullName = $("#input-1").val().trim();
         if (
             fullName.length > 0 &&
             (fullName.length < 3 || fullName.length > 50)
@@ -145,7 +145,7 @@ $(document).ready(function () {
             // Thiết lập thời gian chờ trước khi tự động đóng modal
             setTimeout(() => {
                 $("#modal-check").modal("hide");
-            }, 2500);
+            }, 5000);
             return false;
         } else {
             return true;

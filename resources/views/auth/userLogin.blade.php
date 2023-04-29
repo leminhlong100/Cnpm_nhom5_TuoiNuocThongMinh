@@ -56,6 +56,7 @@
                 <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
                 <!-- check xem section đã có user hay chưa nếu có rồi thì chuyền về home -->
+                <!-- bước 2.6.12 : Hiển thị thông báo "Xác nhận email thành công! Bạn có thể đăng nhập." ở bên trên trường nhập Email -->
                 @if(Session::has('ok'))
                 <small class="form-text text-success">{{ Session::get('ok') }}</small>
                 @endif
@@ -81,6 +82,9 @@
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-theme btn-block p-2 mb-1" name="login" value="Đăng nhập" />
+
+                    <!-- bước 2.6.1. Người dùng ấn vào nút [Đăng ký tài khoản] ở màn hình [Đăng nhập] -->
+                    <!-- bước 2.6.2 bên sang file RegisterController.php -->
                     <a href="{{route('register')}}">
                         <small class="text-theme"
                             style="font-style: italic; float: left; margin-top: 10px; margin-left: 10px"><strong>{{ trans('login.register') }}</strong></small>
