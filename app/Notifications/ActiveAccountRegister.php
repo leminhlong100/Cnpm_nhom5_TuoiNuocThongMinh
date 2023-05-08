@@ -38,6 +38,8 @@ class ActiveAccountRegister extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+    // bước 2.6.7 Hệ thống tạo và gửi một email xác nhận tới địa chỉ email mà người dùng đã nhập.
+    // (bước 2.6.8 ở file RegisterController)
     public function toMail($notifiable)
     {
         return (new MailMessage)
@@ -45,7 +47,9 @@ class ActiveAccountRegister extends Notification implements ShouldQueue
             ->greeting("Xin chào! ")
             ->line('Tài khoản của bạn vừa được yêu cầu xác nhận.')
             ->line('Nếu bạn thực sự thực hiện yêu cầu trên vui lòng nhấn nút kích hoạt ở dưới.')
-            // 6.9 nhấn nút kích hoạt
+            // bước 2.6.9 : Người dùng kiểm tra email hệ thống gửi về
+            //bước 2.6.10 Người dùng nhấn nút [Kích hoạt]
+            // (bước 2.6.11 ở file RegisterController)
             ->action('Kích hoạt', route('confirmemailRegister', [
                 'email' => $notifiable->email,
                 'key' => $notifiable->random_key

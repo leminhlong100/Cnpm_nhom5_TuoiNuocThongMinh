@@ -16,11 +16,15 @@
             <h3 class="mb-2" style="margin-bottom: 20px!important; text-align: center">Đăng ký tài khoản</h3>
 
             <!-- Mỗi trường nhập liệu sẽ nằm trong class form của thẻ <p class="form"> -->
+            <!-- Người dùng sẽ nhập thông tin trong thẻ <form></form>
+        Lưu ý: các trường <label></label> có chứa dấu (*) là các trường mà người dùng bắt buộc phải nhập như:
+        Họ tên, email, mật khẩu, xác nhận mật khẩu ,số điện thoại 
+        -->
             <form method="post" action="{{route('postRegister')}}" class="form-horizontal mt-4 mb-5"
                 style="margin-top: 0px!important;">
                 @csrf
                 <div class="form-group row" style="margin-bottom: 0px">
-                    <!-- Họ tên -->
+                    <!-- Họ tên (*)-->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-1">Họ tên <span class="text-danger">*</span></label>
@@ -31,7 +35,7 @@
                             @enderror
                         </p>
                     </div>
-                    <!-- Email -->
+                    <!-- Email (*)-->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-2">Email <span class="text-danger">*</span></label>
@@ -45,7 +49,7 @@
                 </div>
 
                 <div class="form-group row" style="margin-bottom: 0px">
-                    <!-- Password -->
+                    <!-- Password (*)-->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-3">Mật khẩu đăng nhập <span
@@ -57,7 +61,7 @@
                             @enderror
                         </p>
                     </div>
-                    <!-- RePassword -->
+                    <!-- RePassword (*)-->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-4">Xác nhận mật khẩu <span
@@ -101,7 +105,7 @@
                 </div>
 
                 <div class="form-group row" style="margin-bottom: 0px">
-                    <!-- Phone -->
+                    <!-- Phone (*)-->
                     <div class="col-sm-6">
                         <p class="form">
                             <label class="control-label" for="input-6">Số điện thoại <span
@@ -132,7 +136,8 @@
                         <a href="#" class="col-sm-12 btn btn-danger" id="show-emp" data-toggle="modal"
                             data-target="#modal-up" style="color: white">Thoát</a>
                     </div>
-                    <!-- Đăng ký -->
+                    <!-- bước 2.6.5 Nếu email chưa có và các dữ liệu người dùng nhập hợp lệ, người dùng nhấn nút [Đăng ký] -->
+                    <!-- (bước 2.6.6 bên file RegisterController.php)  -->
                     <div class="col-sm-6">
                         <input type="submit" class="col-sm-12 btn btn-theme" name="register" value="Đăng ký"
                             id="register" style="padding: 8px 0; " data-target="" />

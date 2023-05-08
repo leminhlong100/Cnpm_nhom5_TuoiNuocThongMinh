@@ -1,3 +1,5 @@
+// Kiểm tra lỗi dữ liệu khi người dùng nhập vào ở bước 2.6.4
+// (bước 2.6.5 ở bên file register.blade.php)
 $(document).ready(function () {
     let fullName = "",
         email = "",
@@ -25,7 +27,7 @@ $(document).ready(function () {
             $("#input-1").nextAll(".text-danger").remove();
         }
     });
-    // check emaik
+    // check email xem email này đã được đăng ký trước đó hoặc đã đúng định dạng chưa
     $("#input-2").on("input", () => {
         email = $("#input-2").val().trim();
         if (email.length > 0 && !isValidEmail(email)) {

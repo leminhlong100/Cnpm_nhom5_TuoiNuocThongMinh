@@ -12,19 +12,20 @@ use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
-    // bước 4.1. khi người dùng click [Đăng ký tài khoản] ở trang (Đăng nhập) 
+    // bước 2.6.1. Người dùng ấn vào nút [Đăng ký tài khoản] ở màn hình [Đăng nhập] 
     // dòng số 52 :<a href="{{route('register')}}">
     // hiển thị trang đăng ký
 
-    // bước 6.1. ở bên trang view :resources/views/auth/register.blade.php bắt đầu từ dòng 17
+    // bước 2.6.2. Hệ thống hiển thị màn hình [Đăng ký] ở trung tâm màn hình thiết bị gồm các cặp thuộc tính, mỗi cặp gồm có tên trường nằm bên trên và trường để nhập dữ liệu nằm bên dưới và mỗi cặp sẽ nằm trên mỗi dòng, thứ tự tên trường như sau: Họ tên, email, mật khẩu, xác nhận mật khẩu , ngày sinh , giới tính , số điện thoại, địa chỉ. Trong đó các trường bắt buộc phải nhập được thể hiện bằng các dấu “*” màu đỏ ở cuối mỗi tên trường , ví dụ “Họ tên *”
+    // ở bên trang view :resources/views/auth/register.blade.php bắt đầu từ dòng 17
     public function showRegister()
     {
         return view('auth.register');
     }
 
-    //bước 6.2 điền thông tin bên register.blade.php
+    //bước 2.6.3 điền thông tin bên register.blade.php
 
-    //bước 6.3 : kiểm tra email này đã tồn tại trên hệ thống chưa
+    //bước 2.6.4 : Hệ thống sẽ kiểm tra tính hợp lệ của email, kiểm tra trên xem email này đã có tài khoản trên hệ thống chưa. (bên file check-form-event-input.js)
     public function checkEmail(Request $request)
     {
         $email = $request->input('email');
@@ -43,12 +44,12 @@ class RegisterController extends Controller
     }
 
 
-    // bước 6.4 . nhấn nút đăng ký
+    // bước 2.6.5 : (bên file register.blade.php)
     // kiểm tra tính hợp lệ sau khi người dùng click [Đăng ký] ở trang (Đăng ký) ở dòng 127 
     // <input type="submit" class="col-sm-12 btn btn-theme" name="register" value="Đăng ký"
     public function doRegister(Request $request)
     {
-        //6.5 kiểm tra dữ liệu người dùng nhập vào 1 lần nữa
+        //bước 2.6.6 : Hệ thống sẽ kiểm tra dữ liệu lại lần nữa . Nếu dữ liệu hợp lệ thì sẽ lưu tài khoản này vào database với trạng thái là 0 (chưa kích hoạt)
         $request->validate([
             'r_email' => 'required|email',
             'r_userName' => 'required|min:3|max:50',
@@ -58,10 +59,10 @@ class RegisterController extends Controller
         ], $this->messages());
         // query với điều kiện email
         $user = User::where('email', '=', $request->r_email)->first();
-        // email không tồn tại gửi email mơi
+        // email chưa được đăng ký trên hệ thống
         if ($user == null) {
             $token = Str::random(40);
-            // 6.5 lưu tài khoản này vào database với trạng thái mặc định là 0 (chưa kích hoạt)
+            // bước 2.6.6 : lưu tài khoản này vào database với trạng thái mặc định là 0 (chưa kích hoạt)
             $user = User::create([
                 'email' => $request->r_email,
                 'password' => Hash::make($request->r_pass),
@@ -75,16 +76,16 @@ class RegisterController extends Controller
                 'key_time' => Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s')
             ]);
 
-            // 6.6 gửi email kích hoạt tài khoản
+            // bước 2.6.7 Hệ thống tạo và gửi một email xác nhận tới địa chỉ email mà người dùng đã nhập. ( Chuyển qua ActiveAccountRegister để gửi mail)
             $user->notify(new ActiveAccountRegister());
-            //6.7 redirect về trang (Đăng nhập) và thông báo thành công
+            //bước 2.6.8 . Hệ thống chuyển qua màn hình [Đăng ký] và  hiển thị thông báo màu xanh lá cây: ”Tạo tài khoản thành công - kiểm tra email để kích hoạt tài khoản.” ở bên dưới các trường nhập dữ liệu 
             return redirect()->back()->withInput($request->only('ok'))->withErrors(['register' => 'Tạo tài khoản thành công - kiểm tra email để kích hoạt tài khoản.']);
         } else {
             // đã tồn tại active = 1 thông báo lỗi
             if ($user->active == 1) {
                 return redirect()->back()->withErrors(['r_email' => 'Email này đã được đăng ký trước đó!'])->withInput();
             } else {
-                // email tồn tại active =0 gửi lại email
+                // email tồn tại active = 0 gửi lại email
                 $token = Str::random(40);
                 $user->email = $request->r_email;
                 $user->password = Hash::make($request->r_pass);
@@ -97,16 +98,15 @@ class RegisterController extends Controller
                 $user->random_key = $token;
                 $user->key_time = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
                 $user->update();
-                // 6.6 gửi email kích hoạt tài khoản
+                // bước 2.6.7 Hệ thống tạo và gửi một email xác nhận tới địa chỉ email mà người dùng đã nhập. ( Chuyển qua ActiveAccountRegister để gửi mail)
                 $user->notify(new ActiveAccountRegister());
-                //6.7 redirect về trang (Đăng nhập) và thông báo thành công
+                //bước 2.6.8 . Hệ thống chuyển qua màn hình [Đăng ký] và  hiển thị thông báo màu xanh lá cây: ”Tạo tài khoản thành công - kiểm tra email để kích hoạt tài khoản.” ở bên dưới các trường nhập dữ liệu 
                 return redirect()->back()->withInput($request->only('ok'))->withErrors(['register' => 'Tạo tài khoản thành công - kiểm tra email để kích hoạt tài khoản.']);
             }
         }
     }
 
-    // 6.8 - 6.11 xác thực tài khoản
-    // 6.8 - 6.9 sang phương thức toMail() của file ActiveAccountRegister.php
+    // bước 2.6.9 - 2.6.10 xác thực tài khoản (ở bên file ActiveAccountRegister.php )
     public function confirmEmail($email, $key)
     {
         //		Session::forget( 'signup' );
@@ -125,11 +125,12 @@ class RegisterController extends Controller
             // kiểm tra xem giờ hiện tại còn hiệu lực không
             // nếu còn thì cập nhật trạng thái cho tài khoản
             if ($now->lt($kt)) { // mail này có hiệu lực trong 1h
-                //6.10 cập nhật trạng thái tài khoản sang 1(đã kích hoạt)
+                //bước 2.6.11 . Hệ thống cập nhật trạng thái (active) tài khoản vừa kích hoạt thành công từ ‘0’ sang ‘1’
                 $u->active = 1;
                 $u->key_time = null;
                 $u->random_key = null;
                 $u->update();
+                // bước 2.6.12 : Hệ thống sẽ chuyển đến trang [Đăng nhập] và hiển thị thông báo "Xác nhận email thành công! Bạn có thể đăng nhập." ở bên trên trường nhập Email
                 return redirect('login')->with('ok', 'Xác nhận email thành công! Bạn có thể đăng nhập.');
             } else { // xuất ra lỗi 404
                 return redirect('404')->withErrors(['mes' => 'Liên kết đã hết hạn!']);
