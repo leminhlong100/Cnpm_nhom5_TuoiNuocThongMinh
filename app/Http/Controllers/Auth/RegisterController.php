@@ -131,6 +131,7 @@ class RegisterController extends Controller
                 $u->random_key = null;
                 $u->update();
                 // bước 2.6.12 : Hệ thống sẽ chuyển đến trang [Đăng nhập] và hiển thị thông báo "Xác nhận email thành công! Bạn có thể đăng nhập." ở bên trên trường nhập Email
+                // (thông báo thành công bên file userLogin.blade.php)
                 return redirect('login')->with('ok', 'Xác nhận email thành công! Bạn có thể đăng nhập.');
             } else { // xuất ra lỗi 404
                 return redirect('404')->withErrors(['mes' => 'Liên kết đã hết hạn!']);
