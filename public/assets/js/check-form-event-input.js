@@ -145,7 +145,7 @@ $(document).ready(function () {
             // Thiết lập thời gian chờ trước khi tự động đóng modal
             setTimeout(() => {
                 $("#modal-check").modal("hide");
-            }, 5000);
+            }, 2500);
             return false;
         } else {
             return true;
