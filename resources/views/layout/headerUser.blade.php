@@ -31,6 +31,7 @@
 {{--                </div>--}}
                 <div class="mr-4" style="margin-top: -6px">
                     <div class="dropdown-menu dropdown-menu-right mt-13" aria-labelledby="dropdownMenuLink">
+                        <!--(Đăng nhập)  Bước 1.6.9 Nếu entity user có là admin (role = 2) thì hệ thống hiển thị trong phần header sẽ hiển thị button cho phép truy cập vào trang quản lý (Web quản lý) -->
                         @if(Session::get('User')->role_id==2)
                         <a class="dropdown-item" href="{{route('adLogin')}}"><i class="fas fa-user-tie pr-2"></i> Web quản lý</a>
                         <div class="dropdown-divider"></div>

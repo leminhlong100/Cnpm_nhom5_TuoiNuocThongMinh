@@ -1,6 +1,8 @@
+<!-- 20130316_LeMinhLong -->
+<!-- Bước 1.6.1(Đăng nhập) : Người dùng truy cập vào hệ thống nếu chưa đăng nhập hệ thống sẽ tự động chuyển đến màn hình [Đăng nhập]. -->
 @extends('auth.auth')
 @section('content-auth')
-<!-- dialog lỗi sai định đạng email -->
+<!--(Đăng nhập)  dialog lỗi sai định đạng email -->
 <div class="modal fade" style=" position: fixed;
   top: 60%;
   left: 50%;
@@ -19,7 +21,7 @@
         </div>
     </div>
 </div>
-<!-- dialog lỗi mật khẩu dưới 8 ký tự -->
+<!--(Đăng nhập)  dialog lỗi mật khẩu dưới 8 ký tự -->
 <div class="modal fade" style=" position: fixed;
   top: 60%;
   left: 50%;
@@ -51,10 +53,12 @@
             <form method="post" action="{{route('postUsLogin')}}" class="mt-2" onsubmit="return validateForm()"
                 name="myForm">
                 @csrf
-                <!-- hiển thị ra lỗi của người dùng -->
+                <!--(Đăng nhập)  hiển thị ra lỗi của người dùng -->
                 @error('mes')
                 <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
+                <!--(Đăng nhập)  check xem section đã có user hay chưa nếu có rồi thì chuyền về home -->
+
                 <!-- check xem section đã có user hay chưa nếu có rồi thì chuyền về home -->
                 <!-- bước 2.6.12 : Hiển thị thông báo "Xác nhận email thành công! Bạn có thể đăng nhập." ở bên trên trường nhập Email -->
                 @if(Session::has('ok'))
@@ -82,7 +86,6 @@
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-theme btn-block p-2 mb-1" name="login" value="Đăng nhập" />
-
                     <!-- bước 2.6.1. Người dùng ấn vào nút [Đăng ký tài khoản] ở màn hình [Đăng nhập] -->
                     <!-- bước 2.6.2 bên sang file RegisterController.php -->
                     <a href="{{route('register')}}">
@@ -97,7 +100,7 @@
             </form>
         </div>
         <script>
-        // đoạn script này validate ở bước 6.5 của normal flow là kiểm tra email và password hợp cú pháp
+        // (Đăng nhập) Đoạn script này validate ở bước 6.5 của normal flow là kiểm tra email và password hợp cú pháp
         function validateForm() {
             var email = document.forms["myForm"]["email"].value;
             var password = document.forms["myForm"]["pass"].value;
@@ -116,7 +119,6 @@
             }
         }
         </script>
-
     </div>
 </div>
 @endsection()
