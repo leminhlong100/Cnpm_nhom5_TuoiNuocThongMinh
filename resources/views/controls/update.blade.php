@@ -251,7 +251,55 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <p class="form">
+                                    <label class="control-label" for="control_Watering">Điều khiển tuoi nuoc</label>
+                                    <select class="form-control" name="control_Watering" id="control_Watering">
+                                        <option value="{{$wateringId->status}}">
+                                            @if ($wateringId->status == 0)
+                                                Tắt
+                                            @elseif ($wateringId->status == 1)
+                                                Bật
+                                            @elseif ($wateringId->status == 2)
+                                                Hẹn giờ
+                                            @endif
+                                        </option>
+                                        <option value="1">Bật</option>
+                                        <option value="0">Tắt</option>
+                                        <option value="2">Hẹn giờ</option>
+                                    </select>
+                                    @error('control_watering')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="form">
+                                            <label class="control-label" for="timer_watering_On">Thời gian bắt đầu tưới</label>
+                                            <input type="time" value="{{$oxygenId->timer_on}}" class="form-control" name="timer_watering_On"
+                                                   id="timer_watering_On" placeholder=""/>
+                                            @error('timer_watering_On')
+                                            <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="form">
+                                            <label class="control-label" for="timer_watering_Off">Thời gian tắt
+                                            </label>
+                                            <input type="time" value="{{$oxygenId->timer_off}}" class="form-control" name="timer_watering_Off"
+                                                   id="timer_watering_Off" placeholder=""/>
+                                            @error('timer_watering_Off')
+                                            <small class="form-text text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group row" style="margin-top: 40px">
                             <p class="form">

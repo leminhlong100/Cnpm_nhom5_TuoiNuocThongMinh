@@ -9,6 +9,7 @@ use App\Models\Oxygen_fan;
 use App\Models\Pond;
 use App\Models\Pump_In;
 use App\Models\Pump_out;
+use App\Models\Watering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,10 @@ class ConfigControlController extends Controller
 {
     public function showView()
     {
+        /*
+         * Author : Nguyen Hoang hai
+         * xem thông tin của bộ điều khiển
+         */
         $controlSingup = DB::select('SELECT ponds.id as IDPond, ponds.id_user as IDUser, control.`id`,ponds.`name` as name_pond, control.`name` as name_control, control.address
           FROM ponds, control
           WHERE control.id_pond = ponds.id and control.active = 0');
@@ -81,7 +86,8 @@ class ConfigControlController extends Controller
         $pumpOutId = Pump_out::all()->where('id', $controlId->id_pump_out)->first();
         $lampId = Lamp::all()->where('id', $controlId->id_lamp)->first();
         $oxygenId = Oxygen_fan::all()->where('id', $controlId->id_oxygen_fan)->first();
-        return view('controls.update', ['pondall' => $pondall, 'controlId' => $controlId, 'pondId' => $pondId, 'pumpInId' => $pumpInId, 'pumpOutId' => $pumpOutId, 'lampId' => $lampId, 'oxygenId' => $oxygenId]);
+        $wateringId = Watering::all()->where('id', $controlId->id_watering)->first();
+        return view('controls.update', ['pondall' => $pondall, 'controlId' => $controlId, 'pondId' => $pondId, 'pumpInId' => $pumpInId, 'pumpOutId' => $pumpOutId, 'lampId' => $lampId, 'oxygenId' => $oxygenId,'wateringId' => $wateringId]);
     }
 
     public function postUpdateInfo(Request $request, $id)
@@ -98,7 +104,7 @@ class ConfigControlController extends Controller
          *
          */
 
-//        Kiểm tra thông tin xem có trường nào bị thiếu không
+//        Kiểm tra thông tin xem có trường nào bị thiếu không (6.6.2.1)
         $request->validate([
             'name' => 'required',
             'upAcControl' => 'required',
@@ -107,6 +113,7 @@ class ConfigControlController extends Controller
             'control_pumpOut' => 'required',
             'control_lamp' => 'required',
             'control_oxy' => 'required',
+//            'control_Watering' => 'required',
         ], $this->messages());
 //          Tìm kiếm bộ điều khiển(Control) có id_pond và name giống với thông tin người dùng mong muốn, lưu vào biến c
         $c = Control::where('id_pond', '=', $request->id_pond)
@@ -124,9 +131,10 @@ class ConfigControlController extends Controller
             $pumpOut_id = $quest->id_pump_out;
             $lamp_id = $quest->id_lamp;
             $oxy_id = $quest->id_oxygen_fan;
+            $watering_id =$quest->id_watering;
 
             //          nếu như active=1(đang hoạt động) và upAcControl == 2(muốn khóa bộ điều khiển)
-            //          thì reset toàn bộ thông tin
+            //          thì reset toàn bộ thông tin (6.6.2.2)
             if ($quest->active == 1 && $request->upAcControl == 2) {
                 $pumpIn = Pump_In::find($pumpIn_id);
                 $pumpIn->status = 0;
@@ -152,6 +160,12 @@ class ConfigControlController extends Controller
                 $oxy->timer_off = null;
                 $oxy->update();
 
+                $watering = Watering::find($watering_id);
+                $watering->status = 0;
+                $watering->timer_on = null;
+                $watering->timer_off = null;
+                $watering->update();
+
                 $quest->active = $request->upAcControl;
                 $quest->update();
                 return redirect()->back()->withInput($request->only('ok'))->withErrors(['submit_updateControll' => 'Chỉnh sửa bộ điều khiển thành công!']);
@@ -160,7 +174,7 @@ class ConfigControlController extends Controller
                 if ($quest->active == 2 && $request->upAcControl == 2) {
                     return redirect()->back()->withErrors(['upAcControl' => 'Không thể cập nhật thông tin khi bộ điều khiển đang bị khóa!']);
                 } else {
-//                    khi các điều kiện đã thỏa thì cập nhật thông tin thay đổi vào database
+//                    khi các điều kiện đã thỏa thì cập nhật thông tin thay đổi vào database (6.6.2.3)
                     $pumpIn = DB::table('pump_in')->where('id', $pumpIn_id)->update([
                         "status" => $request->get("control_pumpIn"),
                         "timer_on" => $request->get("timer_pumpIn_On"),
@@ -181,6 +195,11 @@ class ConfigControlController extends Controller
                         "timer_on" => $request->get("timer_oxy_On"),
                         "timer_off" => $request->get("timer_oxy_Off"),
                     ]);
+                    $watering = DB::table('watering')->where('id', $watering_id)->update([
+                        "status" => $request->get("control_Watering"),
+                        "timer_on" => $request->get("timer_oxy_On"),
+                        "timer_off" => $request->get("timer_oxy_Off"),
+                    ]);
 
                     $quest->active = $request->upAcControl;
                     $quest->update();
@@ -188,12 +207,16 @@ class ConfigControlController extends Controller
                 }
             }
         } else
-            return redirect()->back()->withErrors(['name' => 'Tên bộ điều khiển này đã tồn tại!']);
+            return redirect()->back()->withErrors(['name' => 'Tên bộ điều khiển này đã tồn tại!']);// 6.6.2.4 không tìm thấy bộ điều khiển
     }
 
 
     public function deleteControl($id)
     {
+        /*
+         * Author : Nguyen Hoang hai
+         * xóa bộ điều khiển
+         */
         $quest = Control::find($id);
         if ($quest->active == 0) {
             $quest->delete();
