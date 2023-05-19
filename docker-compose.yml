@@ -4,9 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        PHP_VERSION: 7.4.33
     container_name: laravel_container
     ports:
       - 80:80
     volumes:
       - ./Cnpm_nhom5_TuoiNuocThongMinh:/var/www/html
     working_dir: /var/www/html
+
