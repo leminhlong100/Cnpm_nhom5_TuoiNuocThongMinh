@@ -1,25 +1,5 @@
-# Sử dụng hình ảnh chứa PHP và Composer
-FROM composer:latest AS composer
-
-# Đặt thư mục làm việc
-WORKDIR /app
-
-# Sao chép các tệp composer.json và composer.lock vào thư mục làm việc
-COPY composer.json composer.lock ./
-
-# Cài đặt các gói PHP bằng Composer
-RUN composer install --no-scripts --no-autoloader
-
-# Sao chép các tệp còn lại của ứng dụng vào thư mục làm việc
-COPY . .
-
-# Tạo autoload và cache
-COPY --from=composer /app/vendor /var/www/html/vendor
-RUN composer dump-autoload --no-scripts --no-dev --optimize
-
-
-# Sử dụng hình ảnh PHP và Apache
-FROM php:7.4.33-apache
+# Sử dụng hình ảnh PHP và Composer
+FROM php:7.4.33-apache AS base
 
 # Đặt thư mục làm việc
 WORKDIR /var/www/html
@@ -27,9 +7,11 @@ WORKDIR /var/www/html
 # Cài đặt các gói cần thiết
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Sao chép tệp composer.json và composer.lock từ hình ảnh Composer đến hình ảnh hiện tại
-COPY --from=composer /app/composer.json /var/www/html/composer.json
-COPY --from=composer /app/composer.lock /var/www/html/composer.lock
+# Cài đặt Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Sao chép tệp composer.json và composer.lock vào thư mục làm việc
+COPY composer.json composer.lock ./
 
 # Cài đặt các gói PHP bằng Composer
 RUN composer install --no-scripts --no-autoloader --no-dev
