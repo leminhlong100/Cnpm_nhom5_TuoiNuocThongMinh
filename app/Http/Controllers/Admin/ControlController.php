@@ -17,6 +17,7 @@ use App\Models\Pond;
 use App\Models\Pump_In;
 use App\Models\Pump_out;
 use App\Models\User;
+use App\Models\Watering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,7 @@ class ControlController extends Controller
 {
     public function index()
     {
+//        hoang hai
         $controls = DB::select('SELECT control.*, ponds.id as idPond, ponds.`name` as name_pond, ponds.active as activePond
 FROM control, ponds
 WHERE control.id_pond = ponds.id');
@@ -62,10 +64,16 @@ WHERE control.id_pond = ponds.id AND ponds.id_user = users.id AND control.active
             "timer_on" => 0,
             "timer_off" => 0,
         ]);
+        $watering = Watering::create([
+            "status" => 0,
+            "timer_on" => 0,
+            "timer_off" => 0,
+        ]);
         $control->id_pump_in = $pumpIn->id;
         $control->id_pump_out = $pumpOut->id;
         $control->id_lamp = $lamp->id;
         $control->id_oxygen_fan = $oxygen->id;
+        $control->id_watering = $watering->id;
         $control->active = 4;
         $control->key_active = Str::random(4);
         $control->create_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
