@@ -1,36 +1,16 @@
-# Sử dụng hình ảnh PHP và Composer
-FROM php:7.4.33-apache AS base
+FROM php:7.4-apache
 
-# Đặt thư mục làm việc
-WORKDIR /var/www/html
+RUN apt-get update && apt-get install -y \
+    libmcrypt-dev \
+    mysql-client \
+    libmagickwand-dev --no-install-recommends \
+    && pecl install mcrypt \
+    && pecl install imagick \
+    && docker-php-ext-enable mcrypt \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-enable imagick
 
-# Cài đặt các gói cần thiết
-RUN apt-get update && apt-get install -y zip unzip
-RUN docker-php-ext-install pdo pdo_mysql
+COPY . /var/www/html
 
-# Cài đặt Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Sao chép tệp composer.json và composer.lock vào thư mục làm việc
-COPY composer.json composer.lock ./
-
-# Sao chép các tệp còn lại của ứng dụng vào thư mục làm việc
-COPY . .
-
-# Cài đặt các gói PHP bằng Composer
-RUN composer install --no-scripts --no-autoloader --no-dev
-
-# Tạo autoload và cache
-RUN composer dump-autoload --no-scripts --no-dev --optimize
-
-# Cấu hình Apache để trỏ vào thư mục public
-RUN sed -i -e 's/html/html\/public/g' /etc/apache2/sites-available/000-default.conf
-
-# Kích hoạt module Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Thiết lập quyền cho Apache
-RUN chown -R www-data:www-data /var/www/html/storage
-
-# Mở cổng 80 cho Apache
-EXPOSE 80
+RUN chown -R www-data:www-data /var/www/html \
+    && a2enmod rewrite
