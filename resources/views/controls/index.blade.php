@@ -49,6 +49,7 @@
                             <th>ID bơm ra</th>
                             <th>ID đèn</th>
                             <th>ID quạt</th>
+                            <th>ID bộ tưới</th>
                             <th>Trạng thái</th>
                             <th>Quản lý</th>
                         </tr>
@@ -74,6 +75,8 @@
                                 <td>{{$controls->id_pump_out}}</td>
                                 <td>{{$controls->id_lamp}}</td>
                                 <td>{{$controls->id_oxygen_fan}}</td>
+{{--                                hoang hai đã chỉnh sữa thêm côt id watering--}}
+                                <td>{{$controls->id_watering}}</td>
                                 <td class="align-middle">
                                     @if(($controls->active)==1)
                                         <span class="badge badge-success">Hoạt động</span>

@@ -49,6 +49,8 @@
                             <th>Bơm ra</th>
                             <th>Đèn</th>
                             <th>Quạt oxy</th>
+{{--                            hoàng hải đã thêm cột Tưới nước--}}
+                            <th>Tưới nước</th>
                             <th>Trạng thái</th>
                             <th>Quản lý</th>
                         </tr>
@@ -64,6 +66,7 @@
                                     </td>
                                     <td>{{$controlSingup->name_control}}</td>
                                     <td>{{$controlSingup->address}}</td>
+                                    <td>Chưa lắp</td>
                                     <td>Chưa lắp</td>
                                     <td>Chưa lắp</td>
                                     <td>Chưa lắp</td>
@@ -126,6 +129,16 @@
                                     @elseif ($controls->oxygen_fan == 1)
                                         Bật
                                     @elseif ($controls->oxygen_fan == 2)
+                                        Hẹn giờ
+                                    @endif
+                                </td>
+{{--                                hoàng hải đã thêm cột Tưới nước--}}
+                                <td>
+                                    @if ($controls->watering == 0)
+                                        Tắt
+                                    @elseif ($controls->watering == 1)
+                                        Bật
+                                    @elseif ($controls->watering == 2)
                                         Hẹn giờ
                                     @endif
                                 </td>
@@ -200,6 +213,9 @@
                                     <th>Đèn</th>
                                     <th>Giờ bật Đèn</th>
                                     <th>Giờ tắt Đèn</th>
+                                    <th>tưới nước</th>
+                                    <th>Giờ bật tưới nước</th>
+                                    <th>Giờ tắt tuưới nước</th>
                                     <th>Ngày lắp đặt</th>
                                 </tr>
                                 </thead>
@@ -219,6 +235,9 @@
                                     <td id="den" ></td>
                                     <td id="bat_den" ></td>
                                     <td id="tat_den" ></td>
+                                    <td id="tuoinuoc" ></td>
+                                    <td id="bat_nuoc" ></td>
+                                    <td id="tat_nuoc" ></td>
                                     <td id="create" ></td>
                                 </tr>
                                 </tbody>
@@ -283,6 +302,15 @@
                             }
                             document.getElementById("bat_den").innerText = data[3].timer_on;
                             document.getElementById("tat_den").innerText = data[3].timer_off;
+                            if(data[5].status==0){
+                                document.getElementById("tuoinuoc").innerText = "Tắt";
+                            }else if(data[5].status==1){
+                                document.getElementById("tuoinuoc").innerText = "Bật";
+                            }else if(data[5].status==2){
+                                document.getElementById("tuoinuoc").innerText = "Hẹn giờ";
+                            }
+                            document.getElementById("bat_nuoc").innerText = data[5].timer_on;
+                            document.getElementById("tat_nuoc").innerText = data[5].timer_off;
                             document.getElementById("create").innerText = data[0].create_date;
                         },
                         error: function (data) {

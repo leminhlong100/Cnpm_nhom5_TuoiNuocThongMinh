@@ -254,7 +254,7 @@
                         <div class="form-group row">
                             <div class="col-sm-6">
                                 <p class="form">
-                                    <label class="control-label" for="control_Watering">Điều khiển tuoi nuoc</label>
+                                    <label class="control-label" for="control_Watering">Điều khiển tưới nước</label>
                                     <select class="form-control" name="control_Watering" id="control_Watering">
                                         <option value="{{$wateringId->status}}">
                                             @if ($wateringId->status == 0)

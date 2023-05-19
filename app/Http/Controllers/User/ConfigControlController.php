@@ -27,9 +27,9 @@ class ConfigControlController extends Controller
           FROM ponds, control
           WHERE control.id_pond = ponds.id and control.active = 0');
 
-        $controls = DB::select('SELECT ponds.id as IDPond, ponds.id_user as IDUser, control.`id`,ponds.`name` as name_pond, ponds.active as activePond, control.`name` as name_control, control.address, control.active as activeControl, pump_in.`status` as pump_in, pump_out.`status` as pump_out, lamp.`status` as lamp, oxygen_fan.`status` as oxygen_fan
-          FROM ponds, control, pump_in, pump_out, lamp, oxygen_fan
-          WHERE control.id_pond = ponds.id and control.id_pump_in = pump_in.id and control.id_pump_out = pump_out.id and control.id_lamp = lamp.id and control.id_oxygen_fan = oxygen_fan.id');
+        $controls = DB::select('SELECT ponds.id as IDPond, ponds.id_user as IDUser, control.`id`,ponds.`name` as name_pond, ponds.active as activePond, control.`name` as name_control, control.address, control.active as activeControl, pump_in.`status` as pump_in, pump_out.`status` as pump_out, lamp.`status` as lamp, oxygen_fan.`status` as oxygen_fan,watering.`status` as watering
+          FROM ponds, control, pump_in, pump_out, lamp, oxygen_fan, watering
+          WHERE control.id_pond = ponds.id and control.id_pump_in = pump_in.id and control.id_pump_out = pump_out.id and control.id_lamp = lamp.id and control.id_oxygen_fan = oxygen_fan.id and control.id_watering = watering.id');
         return view('controls.viewUser')->with([
             'controlSingup' => $controlSingup,
             'controls' => $controls,
@@ -43,7 +43,8 @@ class ConfigControlController extends Controller
         $control_pumpOut = Control::find($id)->pumpOut;
         $control_lamp = Control::find($id)->lamps;
         $control_oxygen = Control::find($id)->oxygen;
-        return response()->json([$control, $control_pumpIn, $control_pumpOut, $control_lamp, $control_oxygen]);
+        $control_watering = Control::find($id)->watering;
+        return response()->json([$control, $control_pumpIn, $control_pumpOut, $control_lamp, $control_oxygen,$control_watering]);
     }
 
     public function showSingup()
@@ -197,8 +198,8 @@ class ConfigControlController extends Controller
                     ]);
                     $watering = DB::table('watering')->where('id', $watering_id)->update([
                         "status" => $request->get("control_Watering"),
-                        "timer_on" => $request->get("timer_oxy_On"),
-                        "timer_off" => $request->get("timer_oxy_Off"),
+                        "timer_on" => $request->get("timer_watering_On"),
+                        "timer_off" => $request->get("timer_watering_Off"),
                     ]);
 
                     $quest->active = $request->upAcControl;
