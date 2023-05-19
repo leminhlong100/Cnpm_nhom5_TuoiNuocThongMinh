@@ -133,7 +133,7 @@
                     <p class="form">
                         <!-- Thoát -->
                     <div class="col-sm-6">
-                        <a href="#" class="col-sm-12 btn btn-danger" id="show-emp" data-toggle="modal"
+                        <a href="{{route('homeUs')}}" class="col-sm-12 btn btn-danger" id="show-emp" data-toggle="modal"
                             data-target="#modal-up" style="color: white">Thoát</a>
                     </div>
                     <!-- bước 2.6.5 Nếu email chưa có và các dữ liệu người dùng nhập hợp lệ, người dùng nhấn nút [Đăng ký] -->
