@@ -1,7 +1,9 @@
 version: '3'
 services:
   laravel:
-    image: php:7.4.33-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: laravel_container
     ports:
       - 80:80
