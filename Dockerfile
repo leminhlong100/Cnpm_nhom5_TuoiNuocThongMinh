@@ -5,6 +5,7 @@ FROM php:7.4.33-apache AS base
 WORKDIR /var/www/html
 
 # Cài đặt các gói cần thiết
+RUN apt-get update && apt-get install -y zip unzip
 RUN docker-php-ext-install pdo pdo_mysql
 
 # Cài đặt Composer
@@ -13,11 +14,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Sao chép tệp composer.json và composer.lock vào thư mục làm việc
 COPY composer.json composer.lock ./
 
-# Cài đặt các gói PHP bằng Composer
-RUN composer install --no-scripts --no-autoloader --no-dev
-
 # Sao chép các tệp còn lại của ứng dụng vào thư mục làm việc
 COPY . .
+
+# Cài đặt các gói PHP bằng Composer
+RUN composer install --no-scripts --no-autoloader --no-dev
 
 # Tạo autoload và cache
 RUN composer dump-autoload --no-scripts --no-dev --optimize
