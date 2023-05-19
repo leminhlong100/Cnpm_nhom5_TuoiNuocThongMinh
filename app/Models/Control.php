@@ -15,7 +15,7 @@ class Control extends Model
 
     protected $table = "control";
 
-    protected $fillable = ['name','address','id_pond','id_pump_in','id_pump_out','id_lamp','id_oxygen_fan', 'active', 'create_date', 'update_date', 'delete_date', 'key_active', 'date_active'];
+    protected $fillable = ['name','address','id_pond','id_pump_in','id_pump_out','id_lamp','id_oxygen_fan','id_watering', 'active', 'create_date', 'update_date', 'delete_date', 'key_active', 'date_active'];
 
     public function ponds()
     {
@@ -41,7 +41,10 @@ class Control extends Model
     {
         return $this->hasOne(Oxygen_fan::class, 'id','id_oxygen_fan');
     }
-
+    public function watering()
+    {
+        return $this->hasOne(Watering::class, 'id','id_watering');
+    }
 
     public $timestamps = false;
 }
