@@ -14,7 +14,9 @@ RUN composer install --no-scripts --no-autoloader
 COPY . .
 
 # Tạo autoload và cache
+COPY --from=composer /app/vendor /var/www/html/vendor
 RUN composer dump-autoload --no-scripts --no-dev --optimize
+
 
 # Sử dụng hình ảnh PHP và Apache
 FROM php:7.4.33-apache
