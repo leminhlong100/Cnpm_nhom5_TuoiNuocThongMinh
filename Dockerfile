@@ -17,7 +17,7 @@ COPY . .
 RUN composer dump-autoload --no-scripts --no-dev --optimize
 
 # Sử dụng hình ảnh PHP và Apache
-FROM php:7.4-apache
+FROM php:7.4.33-apache
 
 # Đặt thư mục làm việc
 WORKDIR /var/www/html
@@ -39,25 +39,13 @@ COPY . .
 RUN composer dump-autoload --no-scripts --no-dev --optimize
 
 # Cấu hình Apache để trỏ vào thư mục public
-RUN sed -i -e 's/html/html\/public/g' /etc/httpd/conf/httpd.conf
+RUN sed -i -e 's/html/html\/public/g' /etc/apache2/sites-available/000-default.conf
 
 # Kích hoạt module Apache mod_rewrite
-RUN ln -s /etc/httpd/conf.modules.d/00-base.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/00-lua.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/01-cgi.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/01-lua.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-authn_core.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-authz_core.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-lua.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-mpm_prefork.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-reqtimeout.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-setenvif.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-ssl.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/00-ssl.conf /etc/httpd/conf.d/
-RUN ln -s /etc/httpd/conf.modules.d/02-rewrite.conf /etc/httpd/conf.d/
+RUN a2enmod rewrite
 
 # Thiết lập quyền cho Apache
-RUN chown -R apache:apache /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html/storage
 
 # Mở cổng 80 cho Apache
 EXPOSE 80
