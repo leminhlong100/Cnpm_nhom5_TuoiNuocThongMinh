@@ -21,7 +21,8 @@ class ConfigControlController extends Controller
     {
         /*
          * Author : Nguyen Hoang hai
-         * xem thông tin của bộ điều khiển
+         * 2.
+         * Phương thức này dùng để cung cấp thông tin cho lop viewUser, dùng để hiên thị "Trang cài đặc bo điều khiển"
          */
         $controlSingup = DB::select('SELECT ponds.id as IDPond, ponds.id_user as IDUser, control.`id`,ponds.`name` as name_pond, control.`name` as name_control, control.address
           FROM ponds, control
@@ -38,6 +39,12 @@ class ConfigControlController extends Controller
 
     public function showControl($id)
     {
+/*
+ * Author : Nguyen Hoang hai
+ * Alternate Flows <1> 1.
+ * Phương thức này dùng dể gửi data phục vụ cho ajax, hiển thị thông tin chi tiết của 1 bộ điều khiển khi
+ * nhấn vào biểu tượng con mắt
+ */
         $control = Control::find($id);
         $control_pumpIn = Control::find($id)->pumpIns;
         $control_pumpOut = Control::find($id)->pumpOut;
@@ -77,6 +84,9 @@ class ConfigControlController extends Controller
     public function updateInfo($id)
     {
         /* Author : Nguyen Hoang hai
+         * 4.
+         * sau khi người dùng chọn được bộ điều khiển muốn sửa đổi thì sẽ dùng phương thức này
+         * để gọi xuống database và lấy ra thông tin để hiển thị vào form
          * phương thức này dùng để truyền các tham số đém html dùng để hiển thị thông số
          * cho người dung nhập form
          */
@@ -94,6 +104,8 @@ class ConfigControlController extends Controller
     public function postUpdateInfo(Request $request, $id)
     {
         /*Author : Nguyen Hoang hai
+         * 6.1
+         * Sau khi người dùng nhập vào form ở bước 5, thì data sẽ được gửi cho phương thức này để xu lý logic
          * -Phương thức nhận vào id của bộ điều khiển và 1 số thông tin cần cập nhật cho việc điều khiển
          * -Thông qua biến request(name,upAcControl,id_pond,control_pumpIn,control_pumpOut,control_lamp,control_oxy)
          * Nếu thỏa mãn được điều kiên validate thì check tới upAcControl(khóa hay không khóa), nếu upAcControl = 1 nghĩa là đang hoạt động
@@ -105,7 +117,7 @@ class ConfigControlController extends Controller
          *
          */
 
-//        Kiểm tra thông tin xem có trường nào bị thiếu không (6.6.2.1)
+//        Kiểm tra thông tin xem có trường nào bị thiếu không (6.2.1)
         $request->validate([
             'name' => 'required',
             'upAcControl' => 'required',
@@ -114,7 +126,6 @@ class ConfigControlController extends Controller
             'control_pumpOut' => 'required',
             'control_lamp' => 'required',
             'control_oxy' => 'required',
-//            'control_Watering' => 'required',
         ], $this->messages());
 //          Tìm kiếm bộ điều khiển(Control) có id_pond và name giống với thông tin người dùng mong muốn, lưu vào biến c
         $c = Control::where('id_pond', '=', $request->id_pond)
@@ -135,7 +146,7 @@ class ConfigControlController extends Controller
             $watering_id =$quest->id_watering;
 
             //          nếu như active=1(đang hoạt động) và upAcControl == 2(muốn khóa bộ điều khiển)
-            //          thì reset toàn bộ thông tin (6.6.2.2)
+            //          thì reset toàn bộ thông tin (6.2.2)
             if ($quest->active == 1 && $request->upAcControl == 2) {
                 $pumpIn = Pump_In::find($pumpIn_id);
                 $pumpIn->status = 0;
@@ -175,7 +186,7 @@ class ConfigControlController extends Controller
                 if ($quest->active == 2 && $request->upAcControl == 2) {
                     return redirect()->back()->withErrors(['upAcControl' => 'Không thể cập nhật thông tin khi bộ điều khiển đang bị khóa!']);
                 } else {
-//                    khi các điều kiện đã thỏa thì cập nhật thông tin thay đổi vào database (6.6.2.3)
+//                    khi các điều kiện đã thỏa thì cập nhật thông tin thay đổi vào database (6.2.3)
                     $pumpIn = DB::table('pump_in')->where('id', $pumpIn_id)->update([
                         "status" => $request->get("control_pumpIn"),
                         "timer_on" => $request->get("timer_pumpIn_On"),
@@ -208,7 +219,7 @@ class ConfigControlController extends Controller
                 }
             }
         } else
-            return redirect()->back()->withErrors(['name' => 'Tên bộ điều khiển này đã tồn tại!']);// 6.6.2.4 không tìm thấy bộ điều khiển
+            return redirect()->back()->withErrors(['name' => 'Tên bộ điều khiển này đã tồn tại!']);// 6.2.4 không tìm thấy bộ điều khiển
     }
 
 
@@ -216,7 +227,8 @@ class ConfigControlController extends Controller
     {
         /*
          * Author : Nguyen Hoang hai
-         * xóa bộ điều khiển
+         * Alternate Flows <2>
+         * phương thức này dùng để xóa 1 bộ điều khiển
          */
         $quest = Control::find($id);
         if ($quest->active == 0) {
@@ -248,6 +260,7 @@ class ConfigControlController extends Controller
             'control_pumpOut.required' => 'Bạn cần chọn trạng thái hoạt động.',
             'control_lamp.required' => 'Bạn cần chọn trạng thái hoạt động.',
             'control_oxy.required' => 'Bạn cần chọn trạng thái hoạt động.',
+            'control_watering.required' => 'Bạn cần chọn trạng thái hoạt động.',
         ];
     }
 }

@@ -279,7 +279,7 @@
                                     <div class="col-sm-6">
                                         <p class="form">
                                             <label class="control-label" for="timer_watering_On">Thời gian bắt đầu tưới</label>
-                                            <input type="time" value="{{$oxygenId->timer_on}}" class="form-control" name="timer_watering_On"
+                                            <input type="time" value="{{$wateringId->timer_on}}" class="form-control" name="timer_watering_On"
                                                    id="timer_watering_On" placeholder=""/>
                                             @error('timer_watering_On')
                                             <small class="form-text text-danger">{{ $message }}</small>
@@ -290,7 +290,7 @@
                                         <p class="form">
                                             <label class="control-label" for="timer_watering_Off">Thời gian tắt
                                             </label>
-                                            <input type="time" value="{{$oxygenId->timer_off}}" class="form-control" name="timer_watering_Off"
+                                            <input type="time" value="{{$wateringId->timer_off}}" class="form-control" name="timer_watering_Off"
                                                    id="timer_watering_Off" placeholder=""/>
                                             @error('timer_watering_Off')
                                             <small class="form-text text-danger">{{ $message }}</small>

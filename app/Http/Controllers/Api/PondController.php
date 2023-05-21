@@ -19,6 +19,7 @@ use App\Models\Pump_out;
 use App\Models\Temperature;
 use App\Models\Token_FCM;
 use App\Models\Toolkit;
+use App\Models\Watering;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
@@ -588,9 +589,23 @@ class PondController extends Controller
     function getDataOxygenFan(Request $request)
     {
         $control = Control::find($request->id);
-        $id_pump = $control->id_oxygen_fan;
+        $id_pump = $control->id_watering;
         if ($control->active == 1) {
-            $pond = Oxygen_fan::where('id', '=', $id_pump)->get();
+            $pond = Watering::where('id', '=', $id_pump)->get();
+            return \response()->json($pond, 200);
+        } else {
+            return \response()->json("Error", 200);
+        }
+    }
+
+    public
+    function getDataWatering(Request $request)
+    {
+//        hoàng hải đã viết thêm phương thức để lấy ra thông tin của watering
+        $control = Control::find($request->id);
+        $id_pump = $control->id_watering;
+        if ($control->active == 1) {
+            $pond = Watering::where('id', '=', $id_pump)->get();
             return \response()->json($pond, 200);
         } else {
             return \response()->json("Error", 200);
