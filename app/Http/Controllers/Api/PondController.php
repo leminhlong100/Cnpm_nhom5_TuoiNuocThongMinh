@@ -603,7 +603,7 @@ class PondController extends Controller
     {
 //        hoàng hải đã viết thêm phương thức để lấy ra thông tin của watering
         $control = Control::find($request->id);
-        $id_pump = $control->id_oxygen_fan;
+        $id_pump = $control->id_watering;
         if ($control->active == 1) {
             $pond = Watering::where('id', '=', $id_pump)->get();
             return \response()->json($pond, 200);
