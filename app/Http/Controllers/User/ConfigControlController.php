@@ -38,6 +38,7 @@ class ConfigControlController extends Controller
 
     public function showControl($id)
     {
+//        hoàng hải
         $control = Control::find($id);
         $control_pumpIn = Control::find($id)->pumpIns;
         $control_pumpOut = Control::find($id)->pumpOut;
@@ -114,7 +115,7 @@ class ConfigControlController extends Controller
             'control_pumpOut' => 'required',
             'control_lamp' => 'required',
             'control_oxy' => 'required',
-//            'control_Watering' => 'required',
+            'control_Watering' => 'required',
         ], $this->messages());
 //          Tìm kiếm bộ điều khiển(Control) có id_pond và name giống với thông tin người dùng mong muốn, lưu vào biến c
         $c = Control::where('id_pond', '=', $request->id_pond)
@@ -248,6 +249,7 @@ class ConfigControlController extends Controller
             'control_pumpOut.required' => 'Bạn cần chọn trạng thái hoạt động.',
             'control_lamp.required' => 'Bạn cần chọn trạng thái hoạt động.',
             'control_oxy.required' => 'Bạn cần chọn trạng thái hoạt động.',
+            'control_watering.required' => 'Bạn cần chọn trạng thái hoạt động.',
         ];
     }
 }

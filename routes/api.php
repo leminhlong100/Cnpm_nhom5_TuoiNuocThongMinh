@@ -84,6 +84,8 @@ Route::get('/getDataPumpIn', [\App\Http\Controllers\Api\PondController::class, '
 Route::get('/getDataPumpOut', [\App\Http\Controllers\Api\PondController::class, 'getDataPumpOut']);
 Route::get('/getDataLamp', [\App\Http\Controllers\Api\PondController::class, 'getDataLamp']);
 Route::get('/getDataOxygenFan', [\App\Http\Controllers\Api\PondController::class, 'getDataOxygenFan']);
+// hoang hải đã thêm api để lấy ra thông tin của watering
+Route::get('/getDataWatering', [\App\Http\Controllers\Api\PondController::class, 'getDataWatering']);
 
 Route::put('/setAutoTemp', [\App\Http\Controllers\Api\PondController::class, 'setAutoTemp']);
 Route::put('/setAutoPh', [\App\Http\Controllers\Api\PondController::class, 'setAutoPh']);
