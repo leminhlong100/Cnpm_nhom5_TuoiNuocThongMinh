@@ -605,7 +605,7 @@ class PondController extends Controller
         $control = Control::find($request->id);
         $id_pump = $control->id_oxygen_fan;
         if ($control->active == 1) {
-            $pond = Oxygen_fan::where('id', '=', $id_pump)->get();
+            $pond = Watering::where('id', '=', $id_pump)->get();
             return \response()->json($pond, 200);
         } else {
             return \response()->json("Error", 200);
