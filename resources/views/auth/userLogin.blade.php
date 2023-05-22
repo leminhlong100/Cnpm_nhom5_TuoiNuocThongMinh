@@ -106,7 +106,7 @@
             var password = document.forms["myForm"]["pass"].value;
 
             // Kiểm tra tính hợp lệ của email
-            var emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
                 $('#emailInvalidModal').modal('show');
                 return false;
